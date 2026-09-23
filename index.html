@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Nirabi — AI Engineer & Automation Specialist</title>
+<meta name="description" content="Nour Nirabi — AI Engineer building intelligent automation systems with LLMs, RAG and n8n.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06080d;
+    --panel:#0e131c;
+    --panel-2:#121a26;
+    --border:#1e2733;
+    --text:#eef1f6;
+    --muted:#8792a3;
+    --accent:#8b7bff;
+    --accent-soft:#8b7bff1f;
+    --green:#35d68a;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  ::selection{background:var(--accent-soft);}
+
+  header{position:sticky; top:0; z-index:60; background:rgba(6,8,13,0.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--border);}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; height:62px;}
+  .brand{font-family:'JetBrains Mono'; font-size:0.95rem; color:var(--muted);}
+  .brand b{color:var(--text); font-weight:500;}
+  .navlinks{display:flex; gap:30px; font-size:0.88rem; color:var(--muted);}
+  .navlinks a{transition:color .15s;}
+  .navlinks a:hover{color:var(--text);}
+  .navtoggle{display:none; background:none; border:none; color:var(--text); font-size:1.3rem; cursor:pointer;}
+
+  .hero{position:relative; padding:120px 0 90px; border-bottom:1px solid var(--border); overflow:hidden;}
+  #canvas{position:absolute; inset:0; width:100%; height:100%; opacity:0.55;}
+  .hero .wrap{position:relative; z-index:2;}
+  .status-line{display:inline-flex; align-items:center; gap:8px; font-size:0.82rem; color:var(--muted); margin-bottom:26px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; background:rgba(14,19,28,0.7);}
+  .status-dot{width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green);}
+  .hero h1{font-size:clamp(2.4rem,5.2vw,4rem); line-height:1.06; max-width:14ch; margin-bottom:22px;}
+  .hero .prompt{color:var(--accent);}
+  .hero p.lede{color:var(--muted); font-size:1.1rem; max-width:50ch; margin-bottom:34px;}
+  .cursor{display:inline-block; width:3px; height:0.9em; background:var(--accent); margin-left:4px; vertical-align:middle; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:5px; font-size:0.93rem; font-weight:500; border:1px solid var(--border); transition:border-color .15s,background .15s,color .15s;}
+  .btn-primary{background:var(--accent); color:#0a0812; border-color:var(--accent);}
+  .btn-primary:hover{background:#9d8fff;}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+
+  section{padding:88px 0; border-bottom:1px solid var(--border);}
+  .section-head{display:flex; align-items:baseline; gap:16px; margin-bottom:46px;}
+  .section-head .idx{font-family:'JetBrains Mono'; color:var(--accent); font-size:0.85rem;}
+  .section-head h2{font-size:1.85rem;}
+
+  .about-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:start;}
+  .about-grid p{color:var(--muted); max-width:58ch; margin-bottom:16px;}
+  .sysinfo{background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:0; overflow:hidden;}
+  .sysinfo .sh{padding:10px 16px; border-bottom:1px solid var(--border); font-family:'JetBrains Mono'; font-size:0.78rem; color:var(--muted); display:flex; gap:6px; align-items:center;}
+  .sysinfo .sh span{width:9px; height:9px; border-radius:50%; background:var(--border);}
+  .sysinfo table{width:100%; border-collapse:collapse; font-family:'JetBrains Mono'; font-size:0.83rem;}
+  .sysinfo td{padding:12px 16px; border-bottom:1px solid var(--border);}
+  .sysinfo tr:last-child td{border-bottom:none;}
+  .sysinfo td:first-child{color:var(--muted); width:38%;}
+
+  .log{display:flex; flex-direction:column;}
+  .log-entry{display:grid; grid-template-columns:160px 1fr; gap:26px; padding:28px 0; border-top:1px solid var(--border);}
+  .log-entry:first-child{border-top:none;}
+  .log-ts{font-family:'JetBrains Mono'; font-size:0.78rem; color:var(--muted); padding-top:4px; display:flex; flex-direction:column; gap:6px;}
+  .log-ts .badge{display:inline-flex; align-items:center; gap:6px; width:fit-content; font-size:0.72rem; padding:3px 9px; border-radius:12px; border:1px solid var(--border);}
+  .log-ts .badge.active{color:var(--green); border-color:#35d68a44;}
+  .log-role{font-size:1.12rem; margin-bottom:3px;}
+  .log-org{margin-bottom:14px;}
+  .log-org a{color:var(--muted); font-size:0.9rem; border-bottom:1px dotted var(--border);}
+  .log-org a:hover{color:var(--accent); border-color:var(--accent);}
+  .log-list{color:var(--muted); font-size:0.94rem; padding-left:18px;}
+  .log-list li{margin-bottom:7px;}
+
+  .cases{display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .case{background:var(--panel); padding:30px 32px; display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start;}
+  .case h3{font-size:1.2rem; margin-bottom:10px;}
+  .case p{color:var(--muted); font-size:0.94rem; max-width:60ch; margin-bottom:16px;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{font-family:'JetBrains Mono'; font-size:0.73rem; color:var(--accent); border:1px solid var(--accent-soft); padding:4px 10px; border-radius:3px;}
+  .case-links{display:flex; flex-direction:column; gap:10px; white-space:nowrap;}
+  .case-links a{font-size:0.85rem; color:var(--muted); border-bottom:1px solid var(--border);}
+  .case-links a:hover{color:var(--accent); border-color:var(--accent);}
+
+  .skills-cols{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .skill-col{padding:24px; border-left:1px solid var(--border);}
+  .skill-col:first-child{border-left:none;}
+  .skill-col .path{font-family:'JetBrains Mono'; font-size:0.8rem; color:var(--accent); margin-bottom:16px;}
+  .skill-col ul{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .skill-col li{font-size:0.88rem; color:var(--muted); font-family:'JetBrains Mono';}
+  .skill-col li::before{content:"— "; color:var(--border);}
+
+  .edu-row{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;}
+  .edu-row h3{font-size:1.05rem;}
+  .edu-row .date{font-family:'JetBrains Mono'; color:var(--muted); font-size:0.85rem;}
+  .edu-row .school{color:var(--muted); width:100%; margin-top:4px;}
+
+  .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:center;}
+  .contact-wrap h2{font-size:2.2rem; margin-bottom:16px;}
+  .contact-wrap p{color:var(--muted); max-width:44ch; margin-bottom:0;}
+  .contact-list{display:flex; flex-direction:column; gap:12px;}
+  .contact-list a{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; background:var(--panel); border:1px solid var(--border); border-radius:6px; font-size:0.95rem; transition:border-color .15s;}
+  .contact-list a:hover{border-color:var(--accent);}
+  .contact-list .lbl{display:flex; align-items:center; gap:12px;}
+  .contact-list .ico{color:var(--accent); font-family:'JetBrains Mono'; width:22px;}
+  .contact-list .arrow{color:var(--muted); font-family:'JetBrains Mono';}
+
+  footer{padding:30px 0; text-align:center; color:var(--muted); font-size:0.84rem; font-family:'JetBrains Mono';}
+
+  @media (max-width:860px){
+    .hero{padding:88px 0 64px;}
+    .about-grid,.contact-wrap{grid-template-columns:1fr;}
+    .case{grid-template-columns:1fr;}
+    .skills-cols{grid-template-columns:1fr 1fr;}
+    .skill-col:nth-child(3){border-left:none;}
+    .log-entry{grid-template-columns:1fr;}
+    .navlinks{position:fixed; top:62px; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--border); flex-direction:column; padding:18px 32px; gap:16px; display:none;}
+    .navlinks.open{display:flex;}
+    .navtoggle{display:block;}
+  }
+  @media (max-width:560px){.skills-cols{grid-template-columns:1fr;} .skill-col{border-left:none; border-top:1px solid var(--border);} .skill-col:first-child{border-top:none;}}
+</style>
+</head>
+<body id="top">
+
+<header>
+  <nav class="wrap">
+    <div class="brand mono">~/<b>nour-nirabi</b></div>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <canvas id="canvas"></canvas>
+  <div class="wrap">
+    <div class="status-line mono"><span class="status-dot"></span> available for AI engineering roles</div>
+    <h1><span class="prompt">&gt;</span> Turning AI into working automation<span class="cursor"></span></h1>
+    <p class="lede">AI Engineer specializing in automation, LLMs and NLP. I connect data, models and workflows — n8n, OpenCLAW, RAG — into production systems that need no one watching them.</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">See the work</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-head"><span class="idx">01</span><h2>About</h2></div>
+      <p>I'm an AI Engineer and Automation Specialist who takes AI systems from idea to production — data extraction, RAG pipelines, LLM integration and the orchestration that keeps it all running without manual upkeep.</p>
+      <p>At Wonder Beauties I owned the full automation lifecycle: discovery, design, deployment, monitoring and maintenance — turning repetitive cross-departmental work into automated, self-optimizing flows across Shopify, CRM and fulfillment systems.</p>
+      <p>B.Sc. in Informatics Engineering (AI) from Latakia University. I work fluently in Arabic and English.</p>
+    </div>
+    <div class="sysinfo">
+      <div class="sh"><span></span><span></span><span></span> nour@systems — info</div>
+      <table>
+        <tr><td>role</td><td>AI Engineer / Automation</td></tr>
+        <tr><td>location</td><td>Syria</td></tr>
+        <tr><td>stack</td><td>n8n · OpenCLAW · Python</td></tr>
+        <tr><td>models</td><td>OpenAI · Anthropic · Gemini</td></tr>
+        <tr><td>degree</td><td>B.Sc. AI Eng., 2023</td></tr>
+        <tr><td>languages</td><td>Arabic (native) · English (B2)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">02</span><h2>Experience</h2></div>
+    <div class="log">
+      <div class="log-entry">
+        <div class="log-ts">09/2025 → 06/2026</div>
+        <div>
+          <div class="log-role">AI Product Specialist / AI Automation Specialist</div>
+          <div class="log-org"><a href="https://www.wonderbeauties.com/" target="_blank" rel="noopener">Wonder Beauties ↗</a> · Hybrid</div>
+          <ul class="log-list">
+            <li>Architected end-to-end AI automation across the company, turning manual operations into self-optimizing systems.</li>
+            <li>Built production workflows with n8n, OpenCLAW, Python, Supabase and integrated OpenAI/Anthropic APIs.</li>
+            <li>Built web &amp; app data extraction pipelines with OpenCLAW to feed automations and AI models with real-time data.</li>
+            <li>Developed AI-powered dashboards that visualize scraped data and let users write changes back to the database.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="log-entry">
+        <div class="log-ts">09/2024 → 12/2024</div>
+        <div>
+          <div class="log-role">Data Scientist Intern</div>
+          <div class="log-org"><a href="https://www.ntigra.com/" target="_blank" rel="noopener">Ntigra ↗</a> · Remote</div>
+          <ul class="log-list">
+            <li>Designed AI solutions for healthcare Revenue Cycle Management, reducing operational inefficiencies.</li>
+            <li>Built predictive analytics models and automated clinical documentation tools using NLP.</li>
+            <li>Deployed models with Docker and FastAPI for production-grade reliability.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="log-entry">
+        <div class="log-ts">02/2024 → 09/2024</div>
+        <div>
+          <div class="log-role">AI Engineer</div>
+          <div class="log-org"><a href="https://www.aljude.org/" target="_blank" rel="noopener">AlJude ↗</a> · Remote</div>
+          <ul class="log-list">
+            <li>Built AI-powered solutions using LLM APIs for intelligent user experiences.</li>
+            <li>Built and deployed NLP applications with Django, HTML and CSS front-ends.</li>
+            <li>Streamlined MLOps workflows for deployment, versioning and continuous delivery.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">03</span><h2>Projects</h2></div>
+    <div class="cases">
+      <div class="case">
+        <div>
+          <h3>Smart Doctor Assistant</h3>
+          <p>An AI assistant that analyzes user-reported symptoms to surface possible conditions using Retrieval-Augmented Generation, offering guidance based on similar historical cases from reliable medical sources.</p>
+          <div class="tags"><span class="tag">Ollama</span><span class="tag">ChromaDB</span><span class="tag">RAG</span><span class="tag">LangChain</span><span class="tag">Gradio</span></div>
+        </div>
+        <div class="case-links">
+          <a href="https://github.com/NourNirabi/Smart-Doctor-Assistant" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+      </div>
+      <div class="case">
+        <div>
+          <h3>Smart Intern Chatbot</h3>
+          <p>A language-learning application letting fresh graduates practice real-time conversation with an AI agent that builds a personalized roadmap bridging academic study and workplace skills.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">TensorFlow</span><span class="tag">Gemma</span></div>
+        </div>
+        <div class="case-links">
+          <a href="https://github.com/NourNirabi/Smart-Intern-Chatbot" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">04</span><h2>Skills</h2></div>
+    <div class="skills-cols">
+      <div class="skill-col">
+        <div class="path">~/ai-ml</div>
+        <ul><li>Machine Learning</li><li>Deep Learning</li><li>NLP</li><li>LLMs</li><li>Computer Vision</li><li>MLOps</li><li>Prompt Engineering</li><li>RAG</li></ul>
+      </div>
+      <div class="skill-col">
+        <div class="path">~/automation</div>
+        <ul><li>n8n</li><li>OpenCLAW</li><li>AI Agents</li><li>Workflow Orchestration</li><li>Webhooks</li></ul>
+      </div>
+      <div class="skill-col">
+        <div class="path">~/engineering</div>
+        <ul><li>Python · C++ · SQL</li><li>TensorFlow · PyTorch</li><li>Scikit-learn</li><li>LangChain</li><li>Hugging Face</li></ul>
+      </div>
+      <div class="skill-col">
+        <div class="path">~/infra</div>
+        <ul><li>FastAPI · Flask · Django</li><li>Supabase · PostgreSQL</li><li>Docker</li><li>Git · CI/CD</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">05</span><h2>Education</h2></div>
+    <div class="edu-row">
+      <h3>B.Sc. in Informatics Engineering — Artificial Intelligence</h3>
+      <span class="date mono">2023</span>
+      <div class="school">Latakia University, Syria</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none;">
+  <div class="wrap contact-wrap">
+    <div>
+      <h2>Let's build something.</h2>
+      <p>Open to AI engineering and automation roles. Reach out directly, or find me on LinkedIn and GitHub.</p>
+    </div>
+    <div class="contact-list">
+      <a href="mailto:nournirabi@gmail.com"><span class="lbl"><span class="ico mono">@</span> nournirabi@gmail.com</span><span class="arrow">↗</span></a>
+      <a href="tel:+963935519618"><span class="lbl"><span class="ico mono">#</span> +963 935 519 618</span><span class="arrow">↗</span></a>
+      <a href="https://www.linkedin.com/in/nour-nirabi-35368020a/" target="_blank" rel="noopener"><span class="lbl"><span class="ico mono">in</span> LinkedIn</span><span class="arrow">↗</span></a>
+      <a href="https://github.com/NourNirabi" target="_blank" rel="noopener"><span class="lbl"><span class="ico mono">gh</span> GitHub</span><span class="arrow">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Nour Nirabi — nournirabi.github.io/portfolio</div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function(){
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('.navlinks a').forEach(function(a){
+    a.addEventListener('click', function(){ document.getElementById('navLinks').classList.remove('open'); });
+  });
+
+  // ambient automation-canvas animation
+  (function(){
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.querySelector('.hero');
+    var W,H,nodes=[];
+    function size(){
+      W = canvas.width = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    }
+    function init(){
+      size();
+      var count = Math.max(14, Math.floor(W/110));
+      nodes = [];
+      for(var i=0;i<count;i++){
+        nodes.push({
+          x: Math.random()*W, y: Math.random()*H,
+          vx: (Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25
+        });
+      }
+    }
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<nodes.length;i++){
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if(n.x<0||n.x>W) n.vx*=-1;
+        if(n.y<0||n.y>H) n.vy*=-1;
+      }
+      for(var i=0;i<nodes.length;i++){
+        for(var j=i+1;j<nodes.length;j++){
+          var dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+          var d = Math.sqrt(dx*dx+dy*dy);
+          if(d<160){
+            ctx.strokeStyle = 'rgba(139,123,255,'+(0.14*(1-d/160))+')';
+            ctx.lineWidth=1;
+            ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke();
+          }
+        }
+      }
+      for(var i=0;i<nodes.length;i++){
+        ctx.fillStyle='rgba(139,123,255,0.75)';
+        ctx.beginPath(); ctx.arc(nodes[i].x,nodes[i].y,1.6,0,Math.PI*2); ctx.fill();
+      }
+      if(!reduce) requestAnimationFrame(step);
+    }
+    window.addEventListener('resize', size);
+    init();
+    step();
+  })();
+</script>
+
+</body>
+</html>
