@@ -1,0 +1,8 @@
+node_modules
+.github
+.git
+README.md
+wrangler.jsonc
+.assetsignore
+package.json
+package-lock.json
